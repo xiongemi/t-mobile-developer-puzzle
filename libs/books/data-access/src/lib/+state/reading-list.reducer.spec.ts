@@ -51,6 +51,16 @@ describe('Books Reducer', () => {
 
       expect(result.ids).toEqual(['A', 'B', 'C']);
     });
+
+    it('undoRemoveFromReadingList should add back the book to state', () => {
+      const action = ReadingListActions.undoRemoveFromReadingList({
+        item: createReadingListItem('C')
+      });
+
+      const result: State = reducer(state, action);
+
+      expect(result.ids).toEqual(['A', 'B', 'C']);
+    });
   });
 
   describe('unknown action', () => {
