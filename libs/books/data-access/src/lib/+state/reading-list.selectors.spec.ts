@@ -47,5 +47,32 @@ describe('ReadingList Selectors', () => {
 
       expect(result).toBe(3);
     });
+
+    it('getFinishedBooks() should return books in finished status', () => {
+      let results = ToReadSelectors.getFinishedBooks(state);
+      expect(results.length).toEqual(0);
+
+      state = {
+        ...state,
+        readingList: readingListAdapter.updateOne(
+          {
+            id: 'A',
+            changes: {
+              finished: true
+            }
+          },
+          state.readingList
+        )
+      };
+      results = ToReadSelectors.getFinishedBooks(state);
+      expect(results.length).toEqual(1);
+      expect(results.map(x => x.bookId)).toEqual(['A']);
+    });
+
+    it('getUnfinishedBooks() should return books in unfinished status', () => {
+      const results = ToReadSelectors.getUnfinishedBooks(state);
+      expect(results.length).toEqual(3);
+      expect(results.map(x => x.bookId)).toEqual(['A', 'B', 'C']);
+    });
   });
 });
