@@ -51,6 +51,21 @@ describe('Books Reducer', () => {
 
       expect(result.ids).toEqual(['A', 'B', 'C']);
     });
+
+    it('finishBookInReadingList should mark a book finished in reading list', () => {
+      const list = [createReadingListItem('A')];
+      const loadSuccessAction = ReadingListActions.loadReadingListSuccess({
+        list
+      });
+      const finishAction = ReadingListActions.finishBookInReadingList({
+        item: createReadingListItem('A')
+      });
+
+      let result: State = reducer(initialState, loadSuccessAction);
+      result = reducer(result, finishAction);
+
+      expect(result.entities['A'].finished).toEqual(true);
+    });
   });
 
   describe('unknown action', () => {
